@@ -1,0 +1,257 @@
+.conversation-panel {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  min-height: 600px;
+  max-width: 1200px;
+}
+
+.conversation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.conversation-header h2 {
+  margin: 0;
+  color: #212529;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.conversation-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.provider-selector,
+.model-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.provider-selector .label,
+.model-selector .label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.provider-selector .select,
+.model-selector .select {
+  min-width: 150px;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.empty-conversation {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+}
+
+.empty-conversation .hint {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.message {
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-user {
+  text-align: right;
+}
+
+.message-assistant {
+  text-align: left;
+}
+
+.message-header {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 0.25rem;
+}
+
+.message-content {
+  display: inline-block;
+  max-width: 80%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.message-user .message-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.message-assistant .message-content {
+  background-color: #f8f9fa;
+  color: #212529;
+  border: 1px solid #e9ecef;
+  border-bottom-left-radius: 4px;
+}
+
+.message-content p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.function-calls {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.function-calls strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.function-call {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border-left: 3px solid #3498db;
+}
+
+.function-call-header {
+  margin-bottom: 0.5rem;
+}
+
+.function-name {
+  display: inline-block;
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #e3f2fd;
+  border-radius: 4px;
+}
+
+.function-call-section {
+  margin-top: 0.75rem;
+}
+
+.function-call-section:first-of-type {
+  margin-top: 0;
+}
+
+.function-call-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #7f8c8d;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.function-args,
+.function-result {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+  overflow-x: auto;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.function-result {
+  border-left: 3px solid #28a745;
+  background-color: #f0f9f4;
+}
+
+.loading-indicator {
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.input-container {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.message-input {
+  flex: 1;
+  resize: vertical;
+  min-height: 60px;
+  border-radius: 12px;
+}
+
+.send-button {
+  min-width: 100px;
+  height: fit-content;
+}
+
+.warning-message {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .conversation-panel {
+    height: auto;
+    min-height: 500px;
+  }
+  
+  .message-content {
+    max-width: 95%;
+  }
+  
+  .conversation-controls {
+    width: 100%;
+  }
+  
+  .provider-selector,
+  .model-selector {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .provider-selector .select,
+  .model-selector .select {
+    min-width: 0;
+    flex: 1;
+  }
+}
+

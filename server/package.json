@@ -1,0 +1,7 @@
+{
+  "name": "conversational-design-starter-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js"
+}
+

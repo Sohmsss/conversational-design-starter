@@ -1,0 +1,153 @@
+.function-manager {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1000px;
+}
+
+.section-description {
+  color: #6c757d;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.function-form {
+  margin-bottom: 2rem;
+}
+
+.function-form h3 {
+  margin-top: 0;
+  color: #212529;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.schema-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.schema-editor {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.schema-display {
+  margin-top: 1rem;
+}
+
+.schema-display strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.schema-json {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0;
+  color: #212529;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.functions-list h3 {
+  color: #212529;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.function-card {
+  margin-bottom: 1rem;
+}
+
+.function-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.function-header h4 {
+  margin: 0;
+  color: #212529;
+  font-family: 'Courier New', monospace;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.function-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.function-description {
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.function-details {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.function-parameters {
+  margin-top: 0.5rem;
+}
+
+.function-parameters ul {
+  margin: 0.5rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.function-parameters li {
+  margin-bottom: 0.25rem;
+}
+
+.required-badge {
+  background-color: #e74c3c;
+  color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .parameter-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .function-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+

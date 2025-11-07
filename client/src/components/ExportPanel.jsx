@@ -56,11 +56,34 @@ function ExportPanel() {
 
   const exportMarkdown = () => {
     let markdown = '# AI Assistant Design\n\n';
-    markdown += `*Exported on ${new Date().toLocaleString()}*\n\n`;
+    
+    // Format date like: 07/11/2025, 13:06:16
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    markdown += `*Exported on ${day}/${month}/${year}, ${hours}:${minutes}:${seconds}*\n\n`;
 
     markdown += '## Instructions\n\n';
     if (instructions?.content) {
-      markdown += instructions.content + '\n\n';
+      // Format instructions as numbered list if they contain numbered items
+      const content = instructions.content.trim();
+      // Check if it's already formatted as a numbered list
+      if (/^\d+\./.test(content.split('\n')[0])) {
+        // Split by lines and format each numbered item
+        const lines = content.split('\n');
+        lines.forEach(line => {
+          if (line.trim()) {
+            markdown += line.trim() + '\n\n';
+          }
+        });
+      } else {
+        // Just output the content as-is
+        markdown += content + '\n\n';
+      }
     } else {
       markdown += '*No instructions defined*\n\n';
     }
@@ -75,9 +98,19 @@ function ExportPanel() {
           markdown += `${func.description}\n\n`;
         }
         
+        markdown += '**Mock Input:**\n\n';
+        markdown += '```json\n';
+        markdown += JSON.stringify(func.mockInput !== undefined ? func.mockInput : (func.inputSchema ? 'Legacy: inputSchema' : null), null, 2);
+        markdown += '\n```\n\n';
+        
         markdown += '**Input Schema:**\n\n';
         markdown += '```json\n';
         markdown += JSON.stringify(func.inputSchema || {}, null, 2);
+        markdown += '\n```\n\n';
+        
+        markdown += '**Mock Response:**\n\n';
+        markdown += '```json\n';
+        markdown += JSON.stringify(func.mockResponse !== undefined ? func.mockResponse : (func.outputSchema ? 'Legacy: outputSchema' : null), null, 2);
         markdown += '\n```\n\n';
         
         markdown += '**Output Schema:**\n\n';
@@ -112,9 +145,34 @@ function ExportPanel() {
       } else {
         // Markdown
         text = '# AI Assistant Design\n\n';
-        text += `*Exported on ${new Date().toLocaleString()}*\n\n`;
+        
+        // Format date like: 07/11/2025, 13:06:16
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        text += `*Exported on ${day}/${month}/${year}, ${hours}:${minutes}:${seconds}*\n\n`;
+        
         text += '## Instructions\n\n';
-        text += (instructions?.content || '*No instructions defined*') + '\n\n';
+        if (instructions?.content) {
+          const content = instructions.content.trim();
+          if (/^\d+\./.test(content.split('\n')[0])) {
+            const lines = content.split('\n');
+            lines.forEach(line => {
+              if (line.trim()) {
+                text += line.trim() + '\n\n';
+              }
+            });
+          } else {
+            text += content + '\n\n';
+          }
+        } else {
+          text += '*No instructions defined*\n\n';
+        }
+        
         text += '## Functions\n\n';
         if (functions.length === 0) {
           text += '*No functions defined*\n\n';
@@ -123,9 +181,19 @@ function ExportPanel() {
             text += `### ${idx + 1}. ${func.name}\n\n`;
             if (func.description) text += `${func.description}\n\n`;
             
+            text += '**Mock Input:**\n\n';
+            text += '```json\n';
+            text += JSON.stringify(func.mockInput !== undefined ? func.mockInput : (func.inputSchema ? 'Legacy: inputSchema' : null), null, 2);
+            text += '\n```\n\n';
+            
             text += '**Input Schema:**\n\n';
             text += '```json\n';
             text += JSON.stringify(func.inputSchema || {}, null, 2);
+            text += '\n```\n\n';
+            
+            text += '**Mock Response:**\n\n';
+            text += '```json\n';
+            text += JSON.stringify(func.mockResponse !== undefined ? func.mockResponse : (func.outputSchema ? 'Legacy: outputSchema' : null), null, 2);
             text += '\n```\n\n';
             
             text += '**Output Schema:**\n\n';

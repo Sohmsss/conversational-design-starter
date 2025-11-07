@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import './ConversationPanel.css';
 import '../styles/shared.css';
 
@@ -184,7 +185,15 @@ function ConversationPanel() {
                 <strong>{msg.role === 'user' ? 'You' : 'Assistant'}</strong>
               </div>
               <div className="message-content">
-                {msg.content && <p>{msg.content}</p>}
+                {msg.content && (
+                  msg.role === 'assistant' ? (
+                    <div className="markdown-content">
+                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p>{msg.content}</p>
+                  )
+                )}
                 {msg.functionCalls && msg.functionCalls.length > 0 && (
                   <div className="function-calls">
                     <strong>Function Calls:</strong>

@@ -7,7 +7,7 @@ const router = express.Router();
 // GET /api/instructions - Get current instructions
 router.get('/', async (req, res) => {
   try {
-    const instructions = await readJSON('instructions.json');
+    const instructions = await readJSON('instructions.json', req.sessionId);
     res.json(instructions);
   } catch (error) {
     console.error('Error reading instructions:', error);
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
       updatedAt: new Date().toISOString()
     };
 
-    await writeJSON('instructions.json', instructions);
+    await writeJSON('instructions.json', instructions, req.sessionId);
     res.json(instructions);
   } catch (error) {
     console.error('Error saving instructions:', error);
@@ -54,7 +54,7 @@ router.delete('/', async (req, res) => {
       updatedAt: new Date().toISOString()
     };
 
-    await writeJSON('instructions.json', instructions);
+    await writeJSON('instructions.json', instructions, req.sessionId);
     res.json(instructions);
   } catch (error) {
     console.error('Error clearing instructions:', error);

@@ -39,7 +39,13 @@ This will install dependencies for both the root project, server, and client.
 
 ## Running the Application
 
-1. Start both server and client in development mode:
+1. (Optional) Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your API keys if you want to use environment variables
+```
+
+2. Start both server and client in development mode:
 ```bash
 npm run dev
 ```
@@ -48,7 +54,7 @@ This will start:
 - Backend server on `http://localhost:3001`
 - Frontend development server on `http://localhost:3000`
 
-2. Open your browser and navigate to `http://localhost:3000`
+3. Open your browser and navigate to `http://localhost:3000`
 
 ## Usage
 
@@ -87,6 +93,32 @@ All data is stored in JSON files in the `server/data/` directory:
 - API keys are encrypted using AES-256-CBC before storage
 - Set the `ENCRYPTION_KEY` environment variable for production use
 - Default encryption key is used for development only (not secure for production)
+
+## Deployment
+
+### Environment Variables
+
+For production deployments (Railway, Heroku, etc.), you can use environment variables instead of the API Keys UI:
+
+- `OPENAI_API_KEY` - Your OpenAI API key
+- `ANTHROPIC_API_KEY` - Your Anthropic API key
+- `ENCRYPTION_KEY` - (Optional) Custom encryption key for local file encryption
+
+The application will prioritize environment variables over the API Keys JSON file. This is ideal for:
+- Shared deployments (workshops, demos)
+- Production environments
+- CI/CD pipelines
+
+### Railway Deployment
+
+1. Create a new project on [Railway](https://railway.app)
+2. Connect your GitHub repository
+3. Add environment variables in Railway dashboard:
+   - `OPENAI_API_KEY` or `ANTHROPIC_API_KEY`
+   - `PORT` (Railway sets this automatically)
+4. Deploy!
+
+**Note**: For workshops with multiple users sharing one API key, environment variables are the recommended approach. Remember to monitor your API usage and disable keys after the event.
 
 ## API Endpoints
 

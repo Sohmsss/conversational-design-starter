@@ -4,14 +4,27 @@ import { readJSON } from './storage.js';
 import { decrypt } from './encryption.js';
 
 async function getApiKey(provider) {
-  const apiKeys = await readJSON('apiKeys.json');
-  const encrypted = apiKeys[provider];
-  
-  if (!encrypted) {
-    throw new Error(`API key not configured for ${provider}`);
+  // Check for environment variable first (for production/Railway)
+  const envVarName = provider === 'openai' ? 'OPENAI_API_KEY' : 'ANTHROPIC_API_KEY';
+  const envApiKey = process.env[envVarName];
+
+  if (envApiKey) {
+    return envApiKey;
   }
-  
-  return decrypt(encrypted);
+
+  // Fall back to local JSON file (for local development)
+  try {
+    const apiKeys = await readJSON('apiKeys.json');
+    const encrypted = apiKeys[provider];
+
+    if (!encrypted) {
+      throw new Error(`API key not configured for ${provider}`);
+    }
+
+    return decrypt(encrypted);
+  } catch (error) {
+    throw new Error(`API key not configured for ${provider}. Set ${envVarName} environment variable or configure in API Keys settings.`);
+  }
 }
 
 export async function getOpenAIClient() {

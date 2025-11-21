@@ -7,10 +7,19 @@ const __dirname = path.dirname(__filename);
 
 const DATA_DIR = path.join(__dirname, '../data');
 
+// Get session-specific data directory
+function getSessionDataDir(sessionId) {
+  if (sessionId) {
+    return path.join(DATA_DIR, 'sessions', sessionId);
+  }
+  return DATA_DIR;
+}
+
 // Ensure data directory exists
-async function ensureDataDir() {
+async function ensureDataDir(sessionId = null) {
+  const dataDir = getSessionDataDir(sessionId);
   try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.mkdir(dataDir, { recursive: true });
   } catch (error) {
     // Directory already exists or other error
     if (error.code !== 'EEXIST') {
@@ -41,9 +50,14 @@ async function initializeDataFiles() {
 }
 
 // Read JSON file
-export async function readJSON(filename) {
-  await ensureDataDir();
-  const filePath = path.join(DATA_DIR, filename);
+export async function readJSON(filename, sessionId = null) {
+  // API keys are always stored globally (not per session)
+  const useSession = filename !== 'apiKeys.json' ? sessionId : null;
+
+  await ensureDataDir(useSession);
+  const dataDir = getSessionDataDir(useSession);
+  const filePath = path.join(dataDir, filename);
+
   try {
     const content = await fs.readFile(filePath, 'utf8');
     return JSON.parse(content);
@@ -63,9 +77,13 @@ export async function readJSON(filename) {
 }
 
 // Write JSON file
-export async function writeJSON(filename, data) {
-  await ensureDataDir();
-  const filePath = path.join(DATA_DIR, filename);
+export async function writeJSON(filename, data, sessionId = null) {
+  // API keys are always stored globally (not per session)
+  const useSession = filename !== 'apiKeys.json' ? sessionId : null;
+
+  await ensureDataDir(useSession);
+  const dataDir = getSessionDataDir(useSession);
+  const filePath = path.join(dataDir, filename);
   await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 

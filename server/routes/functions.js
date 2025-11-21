@@ -8,7 +8,7 @@ const router = express.Router();
 // GET /api/functions - Get all function stubs
 router.get('/', async (req, res) => {
   try {
-    const functions = await readJSON('functions.json');
+    const functions = await readJSON('functions.json', req.sessionId);
     res.json(functions);
   } catch (error) {
     console.error('Error reading functions:', error);
@@ -97,8 +97,8 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Mock response is required' });
     }
 
-    const functions = await readJSON('functions.json');
-    
+    const functions = await readJSON('functions.json', req.sessionId);
+
     const newFunction = {
       id: randomUUID(),
       name,
@@ -109,7 +109,7 @@ router.post('/', async (req, res) => {
     };
 
     functions.push(newFunction);
-    await writeJSON('functions.json', functions);
+    await writeJSON('functions.json', functions, req.sessionId);
 
     res.status(201).json(newFunction);
   } catch (error) {
@@ -254,7 +254,7 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { name, description, mockInput, inputSchema, mockResponse } = req.body;
 
-    const functions = await readJSON('functions.json');
+    const functions = await readJSON('functions.json', req.sessionId);
     const index = functions.findIndex(f => f.id === id);
 
     if (index === -1) {
@@ -285,7 +285,7 @@ router.put('/:id', async (req, res) => {
       ...(mockResponse !== undefined && { mockResponse })
     };
 
-    await writeJSON('functions.json', functions);
+    await writeJSON('functions.json', functions, req.sessionId);
     res.json(functions[index]);
   } catch (error) {
     console.error('Error updating function:', error);
@@ -297,14 +297,14 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const functions = await readJSON('functions.json');
+    const functions = await readJSON('functions.json', req.sessionId);
     const filtered = functions.filter(f => f.id !== id);
 
     if (functions.length === filtered.length) {
       return res.status(404).json({ error: 'Function not found' });
     }
 
-    await writeJSON('functions.json', filtered);
+    await writeJSON('functions.json', filtered, req.sessionId);
     res.json({ message: 'Function deleted successfully' });
   } catch (error) {
     console.error('Error deleting function:', error);

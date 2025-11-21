@@ -17,9 +17,9 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Provider is required' });
     }
 
-    // Get instructions and functions
-    const instructions = await readJSON('instructions.json');
-    const functions = await readJSON('functions.json');
+    // Get instructions and functions (session-specific)
+    const instructions = await readJSON('instructions.json', req.sessionId);
+    const functions = await readJSON('functions.json', req.sessionId);
 
     // Build messages array
     const messages = [];

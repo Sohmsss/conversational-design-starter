@@ -15,8 +15,8 @@ function ExportPanel() {
   const loadData = async () => {
     try {
       const [instructionsRes, functionsRes] = await Promise.all([
-        fetch('/api/instructions'),
-        fetch('/api/functions')
+        fetch('/api/instructions', { credentials: 'include' }),
+        fetch('/api/functions', { credentials: 'include' })
       ]);
 
       if (instructionsRes.ok) {

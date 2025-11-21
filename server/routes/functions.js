@@ -132,14 +132,18 @@ router.post('/generate-mock', async (req, res) => {
       return res.status(400).json({ error: 'Function description is required' });
     }
 
-    // Check if API key exists for the provider
-    const apiKeys = await readJSON('apiKeys.json');
+    // Check if API key exists (environment variable or JSON file)
     const providerKey = provider.toLowerCase();
-    
-    if (!apiKeys[providerKey]) {
-      return res.status(400).json({ 
-        error: `API key not configured for ${providerKey}. Please configure it in API Keys settings.` 
-      });
+    const envVarName = providerKey === 'openai' ? 'OPENAI_API_KEY' : 'ANTHROPIC_API_KEY';
+    const hasEnvKey = !!process.env[envVarName];
+
+    if (!hasEnvKey) {
+      const apiKeys = await readJSON('apiKeys.json');
+      if (!apiKeys[providerKey]) {
+        return res.status(400).json({
+          error: `API key not configured for ${providerKey}. Set ${envVarName} environment variable or configure in API Keys settings.`
+        });
+      }
     }
 
     // Create prompt for generating mock input and mock response

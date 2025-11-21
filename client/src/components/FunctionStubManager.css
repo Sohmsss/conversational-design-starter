@@ -6,7 +6,7 @@
 }
 
 .section-description {
-  color: #6c757d;
+  color: #b0b0b0;
   margin-bottom: 1rem;
   font-size: 0.95rem;
   line-height: 1.6;
@@ -18,7 +18,7 @@
 
 .function-form h3 {
   margin-top: 0;
-  color: #212529;
+  color: #e0e0e0;
   font-weight: 700;
   font-size: 1.25rem;
 }
@@ -44,12 +44,12 @@
 .schema-display strong {
   display: block;
   margin-bottom: 0.5rem;
-  color: #495057;
+  color: #e0e0e0;
 }
 
 .schema-json {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
+  background-color: #0d0d0d;
+  border: 1px solid #2a2a2a;
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
@@ -57,7 +57,7 @@
   font-size: 0.85rem;
   line-height: 1.6;
   margin: 0;
-  color: #212529;
+  color: #e0e0e0;
 }
 
 .form-actions {
@@ -67,7 +67,7 @@
 }
 
 .functions-list h3 {
-  color: #212529;
+  color: #e0e0e0;
   margin-bottom: 1rem;
   font-weight: 700;
   font-size: 1.25rem;
@@ -86,7 +86,7 @@
 
 .function-header h4 {
   margin: 0;
-  color: #212529;
+  color: #e0e0e0;
   font-family: 'Courier New', monospace;
   font-size: 1.2rem;
   font-weight: 700;
@@ -98,13 +98,13 @@
 }
 
 .function-description {
-  color: #555;
+  color: #b0b0b0;
   margin-bottom: 0.75rem;
 }
 
 .function-details {
   font-size: 0.9rem;
-  color: #666;
+  color: #b0b0b0;
 }
 
 .function-parameters {
@@ -132,8 +132,8 @@
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #6c757d;
-  background-color: #f8f9fa;
+  color: #808080;
+  background-color: #0d0d0d;
   border-radius: 8px;
   font-weight: 500;
 }

@@ -17,7 +17,7 @@
 
 .conversation-header h2 {
   margin: 0;
-  color: #212529;
+  color: #e0e0e0;
   font-weight: 700;
   font-size: 1.5rem;
 }
@@ -50,18 +50,18 @@
 .messages-container {
   flex: 1;
   overflow-y: auto;
-  border: 1px solid #dee2e6;
+  border: 1px solid #2a2a2a;
   border-radius: 12px;
   padding: 1.5rem;
-  background-color: #ffffff;
+  background-color: #0d0d0d;
   margin-bottom: 1rem;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .empty-conversation {
   text-align: center;
   padding: 3rem;
-  color: #7f8c8d;
+  color: #808080;
 }
 
 .empty-conversation .hint {
@@ -95,7 +95,7 @@
 
 .message-header {
   font-size: 0.85rem;
-  color: #7f8c8d;
+  color: #808080;
   margin-bottom: 0.25rem;
 }
 
@@ -108,15 +108,15 @@
 }
 
 .message-user .message-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #542E91;
   color: white;
   border-bottom-right-radius: 4px;
 }
 
 .message-assistant .message-content {
-  background-color: #f8f9fa;
-  color: #212529;
-  border: 1px solid #e9ecef;
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+  border: 1px solid #2a2a2a;
   border-bottom-left-radius: 4px;
 }
 
@@ -181,7 +181,7 @@
 
 .markdown-content strong {
   font-weight: 600;
-  color: #212529;
+  color: #ffffff;
 }
 
 .markdown-content em {
@@ -189,7 +189,7 @@
 }
 
 .markdown-content code {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 0.2em 0.4em;
   border-radius: 3px;
   font-family: 'Courier New', monospace;
@@ -197,7 +197,7 @@
 }
 
 .markdown-content pre {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.3);
   padding: 0.75rem;
   border-radius: 4px;
   overflow-x: auto;
@@ -210,47 +210,48 @@
 }
 
 .markdown-content blockquote {
-  border-left: 3px solid #667eea;
+  border-left: 3px solid #542E91;
   padding-left: 1em;
   margin: 0.5em 0;
-  color: #6c757d;
+  color: #b0b0b0;
   font-style: italic;
 }
 
 .markdown-content a {
-  color: #667eea;
+  color: #7d5ab8;
   text-decoration: none;
 }
 
 .markdown-content a:hover {
   text-decoration: underline;
+  color: #9672cc;
 }
 
 .markdown-content hr {
   border: none;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #2a2a2a;
   margin: 1em 0;
 }
 
 .function-calls {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #2a2a2a;
 }
 
 .function-calls strong {
   display: block;
   margin-bottom: 0.5rem;
-  color: #7f8c8d;
+  color: #b0b0b0;
   font-size: 0.9rem;
 }
 
 .function-call {
   margin-top: 0.5rem;
   padding: 0.75rem;
-  background-color: #f8f9fa;
+  background-color: #1f1f1f;
   border-radius: 4px;
-  border-left: 3px solid #3498db;
+  border-left: 3px solid #542E91;
 }
 
 .function-call-header {
@@ -260,10 +261,10 @@
 .function-name {
   display: inline-block;
   font-weight: bold;
-  color: #2c3e50;
+  color: #e0e0e0;
   font-size: 0.9rem;
   padding: 0.25rem 0.5rem;
-  background-color: #e3f2fd;
+  background-color: rgba(84, 46, 145, 0.3);
   border-radius: 4px;
 }
 
@@ -279,7 +280,7 @@
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #7f8c8d;
+  color: #b0b0b0;
   margin-bottom: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -289,21 +290,21 @@
 .function-result {
   margin: 0;
   font-size: 0.85rem;
-  color: #555;
+  color: #c0c0c0;
   overflow-x: auto;
-  background-color: white;
+  background-color: #0d0d0d;
   padding: 0.5rem;
   border-radius: 4px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #2a2a2a;
 }
 
 .function-result {
   border-left: 3px solid #28a745;
-  background-color: #f0f9f4;
+  background-color: rgba(40, 167, 69, 0.15);
 }
 
 .loading-indicator {
-  color: #7f8c8d;
+  color: #808080;
   font-style: italic;
 }
 
@@ -326,8 +327,8 @@
 }
 
 .warning-message {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
   padding: 0.75rem 1rem;
   border-radius: 8px;
   border-left: 4px solid #ffc107;

@@ -19,13 +19,13 @@
 
 .export-card h3 {
   margin: 0;
-  color: #212529;
+  color: #e0e0e0;
   font-weight: 700;
   font-size: 1.25rem;
 }
 
 .export-card p {
-  color: #666;
+  color: #b0b0b0;
   margin: 0;
   line-height: 1.6;
 }
@@ -42,7 +42,7 @@
 
 .export-preview h3 {
   margin-top: 0;
-  color: #212529;
+  color: #e0e0e0;
   font-weight: 700;
   font-size: 1.25rem;
 }
@@ -55,21 +55,21 @@
 
 .preview-section {
   padding: 0.75rem;
-  background-color: #f8f9fa;
+  background-color: #1f1f1f;
   border-radius: 4px;
 }
 
 .preview-text {
-  color: #555;
+  color: #b0b0b0;
 }
 
 .preview-empty {
-  color: #999;
+  color: #808080;
   font-style: italic;
 }
 
 .preview-count {
-  color: #667eea;
+  color: #7d5ab8;
   font-weight: 700;
 }
 
@@ -80,14 +80,15 @@
 
 .preview-functions li {
   margin-bottom: 0.25rem;
-  color: #555;
+  color: #b0b0b0;
 }
 
 .preview-functions code {
-  background-color: #e8f4f8;
+  background-color: rgba(84, 46, 145, 0.3);
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-size: 0.9rem;
+  color: #e0e0e0;
 }
 
 @media (max-width: 768px) {

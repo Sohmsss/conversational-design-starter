@@ -4,11 +4,12 @@ import '../styles/shared.css';
 
 function InstructionEditor() {
   const [content, setContent] = useState('');
-  const [userIntent, setUserIntent] = useState('');
-  const [businessGoal, setBusinessGoal] = useState('');
-  const [conversationGoal, setConversationGoal] = useState('');
+  const [audience, setAudience] = useState('');
+  const [values, setValues] = useState('');
   const [toneVoice, setToneVoice] = useState('');
-  const [failureCases, setFailureCases] = useState('');
+  const [serviceExperience, setServiceExperience] = useState('');
+  const [motivations, setMotivations] = useState('');
+  const [frustrations, setFrustrations] = useState('');
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -24,11 +25,12 @@ function InstructionEditor() {
       if (!response.ok) throw new Error('Failed to load instructions');
       const data = await response.json();
       setContent(data.content || '');
-      setUserIntent(data.userIntent || '');
-      setBusinessGoal(data.businessGoal || '');
-      setConversationGoal(data.conversationGoal || '');
+      setAudience(data.audience || '');
+      setValues(data.values || '');
       setToneVoice(data.toneVoice || '');
-      setFailureCases(data.failureCases || '');
+      setServiceExperience(data.serviceExperience || '');
+      setMotivations(data.motivations || '');
+      setFrustrations(data.frustrations || '');
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -43,18 +45,19 @@ function InstructionEditor() {
       const response = await fetch('/api/instructions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           content,
-          userIntent,
-          businessGoal,
-          conversationGoal,
+          audience,
+          values,
           toneVoice,
-          failureCases
+          serviceExperience,
+          motivations,
+          frustrations
         })
       });
 
       if (!response.ok) throw new Error('Failed to save instructions');
-      
+
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (err) {
@@ -63,8 +66,8 @@ function InstructionEditor() {
   };
 
   const generateInstructions = async () => {
-    if (!userIntent.trim() && !businessGoal.trim() && !conversationGoal.trim()) {
-      setError('Please fill in at least User Intent, Business Goal, or Conversation Goal');
+    if (!audience.trim() && !values.trim() && !serviceExperience.trim()) {
+      setError('Please fill in at least one field');
       return;
     }
 
@@ -76,11 +79,12 @@ function InstructionEditor() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userIntent,
-          businessGoal,
-          conversationGoal,
+          audience,
+          values,
           toneVoice,
-          failureCases,
+          serviceExperience,
+          motivations,
+          frustrations,
           provider: 'openai'
         })
       });
@@ -110,13 +114,14 @@ function InstructionEditor() {
       });
 
       if (!response.ok) throw new Error('Failed to clear instructions');
-      
+
       setContent('');
-      setUserIntent('');
-      setBusinessGoal('');
-      setConversationGoal('');
+      setAudience('');
+      setValues('');
       setToneVoice('');
-      setFailureCases('');
+      setServiceExperience('');
+      setMotivations('');
+      setFrustrations('');
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (err) {
@@ -156,57 +161,68 @@ function InstructionEditor() {
 
       <div className="instruction-fields">
         <div className="instruction-field-group">
-          <label className="label">User Intent</label>
+          <label className="label">Audience</label>
           <input
             className="input"
             type="text"
-            value={userIntent}
-            onChange={(e) => setUserIntent(e.target.value)}
-            placeholder="What's the user trying to do? (e.g., Calculate Travel Money)"
+            value={audience}
+            onChange={(e) => setAudience(e.target.value)}
+            placeholder="Who are we talking to? (e.g., Budget-conscious travelers)"
           />
         </div>
 
         <div className="instruction-field-group">
-          <label className="label">Business Goal</label>
+          <label className="label">Values</label>
           <input
             className="input"
             type="text"
-            value={businessGoal}
-            onChange={(e) => setBusinessGoal(e.target.value)}
-            placeholder="What's the org trying to achieve? (e.g., Generate bookings)"
+            value={values}
+            onChange={(e) => setValues(e.target.value)}
+            placeholder="What are the brand values to follow? (e.g., Transparency, empowerment)"
           />
         </div>
 
         <div className="instruction-field-group">
-          <label className="label">Conversation Goal</label>
-          <input
-            className="input"
-            type="text"
-            value={conversationGoal}
-            onChange={(e) => setConversationGoal(e.target.value)}
-            placeholder="What's a successful outcome? (e.g., User completes booking confidently)"
-          />
-        </div>
-
-        <div className="instruction-field-group">
-          <label className="label">Tone/Voice</label>
+          <label className="label">Tone of Voice</label>
           <input
             className="input"
             type="text"
             value={toneVoice}
             onChange={(e) => setToneVoice(e.target.value)}
-            placeholder="What personality should it have? (e.g., Friendly, family-oriented, builds trust)"
+            placeholder="How should we sound to the audience? (e.g., Friendly, supportive, professional)"
           />
         </div>
 
         <div className="instruction-field-group">
-          <label className="label">Failure Cases</label>
+          <label className="label">Service and Experience</label>
           <input
             className="input"
             type="text"
-            value={failureCases}
-            onChange={(e) => setFailureCases(e.target.value)}
-            placeholder="What could go wrong? (e.g., Wrong dates, missing info)"
+            value={serviceExperience}
+            onChange={(e) => setServiceExperience(e.target.value)}
+            placeholder="What service or journey does this conversation support? (e.g., Travel booking)"
+          />
+        </div>
+
+        <div className="instruction-field-group">
+          <label className="label">Motivations</label>
+          <input
+            className="input"
+            type="text"
+            value={motivations}
+            onChange={(e) => setMotivations(e.target.value)}
+            placeholder="What's driving the user's interaction right now? (e.g., Planning a family vacation)"
+          />
+        </div>
+
+        <div className="instruction-field-group">
+          <label className="label">Frustrations</label>
+          <input
+            className="input"
+            type="text"
+            value={frustrations}
+            onChange={(e) => setFrustrations(e.target.value)}
+            placeholder="What problem are we trying to solve? (e.g., Confusion about fees, hidden costs)"
           />
         </div>
 
@@ -214,7 +230,7 @@ function InstructionEditor() {
           <button
             className="button button-primary"
             onClick={generateInstructions}
-            disabled={generating || (!userIntent.trim() && !businessGoal.trim() && !conversationGoal.trim())}
+            disabled={generating || (!audience.trim() && !values.trim() && !serviceExperience.trim())}
           >
             {generating ? 'Generating...' : 'Generate Instructions'}
           </button>

@@ -25,8 +25,17 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <h1>Conversational Design Starter</h1>
-          <p>Design and test your AI assistant</p>
+          <div className="header-logo">
+            <img
+              src="https://brand.holidayextras.com/assets/downloads/02-logos/web-svg/holiday-extras-horizontal-web.svg"
+              alt="Holiday Extras"
+              className="logo"
+            />
+          </div>
+          <div className="header-text">
+            <h1>Conversational Design Starter</h1>
+            <p>Design and test your AI assistant</p>
+          </div>
         </div>
       </header>
       

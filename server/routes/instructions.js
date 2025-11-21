@@ -18,16 +18,17 @@ router.get('/', async (req, res) => {
 // POST /api/instructions - Save/update instructions
 router.post('/', async (req, res) => {
   try {
-    const { content, userIntent, businessGoal, conversationGoal, toneVoice, failureCases } = req.body;
-    
+    const { content, audience, values, toneVoice, serviceExperience, motivations, frustrations } = req.body;
+
     // Support both old format (content) and new format (structured fields)
     const instructions = {
       ...(content !== undefined && { content }),
-      ...(userIntent !== undefined && { userIntent }),
-      ...(businessGoal !== undefined && { businessGoal }),
-      ...(conversationGoal !== undefined && { conversationGoal }),
+      ...(audience !== undefined && { audience }),
+      ...(values !== undefined && { values }),
       ...(toneVoice !== undefined && { toneVoice }),
-      ...(failureCases !== undefined && { failureCases }),
+      ...(serviceExperience !== undefined && { serviceExperience }),
+      ...(motivations !== undefined && { motivations }),
+      ...(frustrations !== undefined && { frustrations }),
       updatedAt: new Date().toISOString()
     };
 
@@ -44,11 +45,12 @@ router.delete('/', async (req, res) => {
   try {
     const instructions = {
       content: '',
-      userIntent: '',
-      businessGoal: '',
-      conversationGoal: '',
+      audience: '',
+      values: '',
       toneVoice: '',
-      failureCases: '',
+      serviceExperience: '',
+      motivations: '',
+      frustrations: '',
       updatedAt: new Date().toISOString()
     };
 
@@ -63,33 +65,41 @@ router.delete('/', async (req, res) => {
 // POST /api/instructions/generate - Generate instructions from structured fields
 router.post('/generate', async (req, res) => {
   try {
-    const { userIntent, businessGoal, conversationGoal, toneVoice, failureCases, provider = 'openai' } = req.body;
+    const { audience, values, toneVoice, serviceExperience, motivations, frustrations, provider = 'openai' } = req.body;
 
     // Check if API key exists for the provider
     const apiKeys = await readJSON('apiKeys.json');
     const providerKey = provider.toLowerCase();
-    
+
     if (!apiKeys[providerKey]) {
-      return res.status(400).json({ 
-        error: `API key not configured for ${providerKey}. Please configure it in API Keys settings.` 
+      return res.status(400).json({
+        error: `API key not configured for ${providerKey}. Please configure it in API Keys settings.`
       });
     }
 
     // Create prompt for generating instructions
     const prompt = `You are an expert at writing AI assistant instructions. Generate comprehensive system instructions for an AI assistant based on the following information:
 
-User Intent: ${userIntent || 'Not specified'}
-Business Goal: ${businessGoal || 'Not specified'}
-Conversation Goal: ${conversationGoal || 'Not specified'}
-Tone/Voice: ${toneVoice || 'Not specified'}
-Failure Cases: ${failureCases || 'Not specified'}
+Audience: ${audience || 'Not specified'}
+Values: ${values || 'Not specified'}
+Tone of Voice: ${toneVoice || 'Not specified'}
+Service and Experience: ${serviceExperience || 'Not specified'}
+Motivations: ${motivations || 'Not specified'}
+Frustrations: ${frustrations || 'Not specified'}
 
-Generate detailed, actionable system instructions that:
-1. Clearly define the assistant's role and purpose
-2. Incorporate the specified tone and voice
-3. Guide the assistant toward achieving the business and conversation goals
-4. Address the potential failure cases with specific handling strategies
-5. Are written in a clear, professional manner suitable for a system prompt
+Generate detailed, actionable system instructions using this structure:
+
+Start with: "You are a helpful assistant. You will assist [audience] with [service/experience]..."
+
+Then include sections that:
+1. Define your role and purpose clearly
+2. Explain the brand values you embody: [values]
+3. Describe your tone of voice: [toneVoice]
+4. Address what motivates users: [motivations]
+5. Explain how you help solve their frustrations: [frustrations]
+6. Provide specific guidance on how to handle conversations
+
+Use second person ("You are...", "You will...", "You should...") throughout the instructions.
 
 Return ONLY the instructions text, no markdown formatting, no explanations, just the instructions themselves.`;
 

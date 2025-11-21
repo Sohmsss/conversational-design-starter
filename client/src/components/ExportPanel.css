@@ -92,8 +92,87 @@
 }
 
 @media (max-width: 768px) {
+  .export-panel {
+    gap: 1.5rem;
+  }
+
   .export-options {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .export-card h3,
+  .export-preview h3 {
+    font-size: 1.15rem;
+  }
+
+  .export-card p {
+    font-size: 0.9rem;
+  }
+
+  .export-actions {
+    gap: 0.625rem;
+  }
+
+  .export-actions .button {
+    flex: 1;
+    min-height: 44px;
+  }
+
+  .preview-section {
+    padding: 0.625rem;
+  }
+
+  .preview-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .export-panel {
+    gap: 1.25rem;
+  }
+
+  .export-options {
+    gap: 1rem;
+  }
+
+  .export-card h3,
+  .export-preview h3 {
+    font-size: 1.1rem;
+  }
+
+  .export-card p {
+    font-size: 0.875rem;
+  }
+
+  .export-actions {
+    flex-direction: column;
+  }
+
+  .export-actions .button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .preview-section {
+    padding: 0.5rem;
+  }
+
+  .preview-text {
+    font-size: 0.875rem;
+  }
+
+  .preview-empty {
+    font-size: 0.875rem;
+  }
+
+  .preview-functions {
+    margin-left: 1.25rem;
+  }
+
+  .preview-functions code {
+    font-size: 0.85rem;
   }
 }
 

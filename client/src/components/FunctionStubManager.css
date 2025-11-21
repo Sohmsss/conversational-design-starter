@@ -139,15 +139,91 @@
 }
 
 @media (max-width: 768px) {
+  .function-manager {
+    gap: 1.5rem;
+  }
+
   .parameter-row {
     grid-template-columns: 1fr;
     gap: 0.5rem;
   }
-  
+
   .function-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.625rem;
+  }
+
+  .function-header h4 {
+    font-size: 1.1rem;
+  }
+
+  .function-actions {
+    width: 100%;
+  }
+
+  .function-actions .button {
+    flex: 1;
+    min-height: 44px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .schema-editor {
+    font-size: 0.85rem;
+  }
+
+  .section-description {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .function-manager {
+    gap: 1.25rem;
+  }
+
+  .function-form h3,
+  .functions-list h3 {
+    font-size: 1.15rem;
+  }
+
+  .function-header h4 {
+    font-size: 1rem;
+  }
+
+  .function-description {
+    font-size: 0.875rem;
+  }
+
+  .function-details {
+    font-size: 0.85rem;
+  }
+
+  .schema-editor {
+    font-size: 0.8rem;
+    padding: 0.875rem;
+  }
+
+  .schema-json {
+    font-size: 0.8rem;
+    padding: 0.875rem;
+  }
+
+  .section-description {
+    font-size: 0.8125rem;
+  }
+
+  .required-badge {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.35rem;
   }
 }
 

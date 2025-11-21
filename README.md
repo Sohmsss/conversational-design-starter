@@ -14,8 +14,8 @@ A simple, open-source web application for designing AI conversational assistants
 
 - **Backend**: Node.js + Express
 - **Frontend**: React + Vite
-- **Storage**: File-based JSON files (simple and accessible)
-- **AI Providers**: OpenAI, Anthropic (extensible)
+- **Storage**: File-based JSON files
+- **AI Providers**: OpenAI, Anthropic
 
 ## Prerequisites
 

@@ -237,12 +237,12 @@ function ConversationPanel() {
           onKeyPress={handleKeyPress}
           placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
           rows={3}
-          disabled={loading || !hasApiKey}
+          disabled={loading}
         />
         <button
           className="button button-primary send-button"
           onClick={sendMessage}
-          disabled={!inputMessage.trim() || loading || !hasApiKey}
+          disabled={!inputMessage.trim() || loading}
         >
           {loading ? 'Sending...' : 'Send'}
         </button>

@@ -61,10 +61,8 @@ function ConversationPanel() {
     setLoading(true);
 
     try {
-      // Check if API key is configured
-      if (!apiKeys[provider] || !apiKeys[provider].encrypted) {
-        throw new Error(`API key not configured for ${providers[provider].name}. Please configure it in the API Keys tab.`);
-      }
+      // Note: API key can be set via environment variable or in API Keys tab
+      // Backend will return error if neither is configured
 
       const response = await fetch('/api/conversation', {
         method: 'POST',
@@ -164,19 +162,13 @@ function ConversationPanel() {
         </div>
       </div>
 
-      {!hasApiKey && (
-        <div className="warning-message">
-          ⚠️ API key not configured for {providers[provider].name}. Please configure it in the API Keys tab.
-        </div>
-      )}
-
       {error && <div className="error-message">{error}</div>}
 
       <div className="messages-container">
         {messages.length === 0 ? (
           <div className="empty-conversation">
             <p>Start a conversation to test your assistant.</p>
-            <p className="hint">Make sure you've configured your instructions and functions, and set up an API key.</p>
+            <p className="hint">Make sure you've configured your instructions. API keys can be set via environment variables or in the API Keys tab.</p>
           </div>
         ) : (
           messages.map((msg, idx) => (

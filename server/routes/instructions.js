@@ -112,7 +112,7 @@ Return ONLY the instructions text, no markdown formatting, no explanations, just
     if (providerKey === 'openai') {
       const client = await getOpenAIClient();
       const completion = await client.chat.completions.create({
-        model: 'gpt-4',
+        model: 'gpt-5.1',
         messages: [
           {
             role: 'system',

@@ -49,7 +49,7 @@ function sanitizeFunctionName(name) {
     .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
 }
 
-export async function callOpenAI(messages, functions, model = 'gpt-4') {
+export async function callOpenAI(messages, functions, model = 'gpt-5') {
   const client = await getOpenAIClient();
   
   // Convert function stubs to OpenAI function format

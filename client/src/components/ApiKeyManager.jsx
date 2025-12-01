@@ -94,7 +94,7 @@ function ApiKeyManager() {
   }
 
   const providers = [
-    { id: 'openai', name: 'OpenAI', models: ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo'] },
+    { id: 'openai', name: 'OpenAI', models: ['gpt-5', 'gpt-5.1', 'gpt-4'] },
     { id: 'anthropic', name: 'Anthropic', models: ['claude-3-5-sonnet-20241022', 'claude-3-opus-20240229', 'claude-3-sonnet-20240229'] }
   ];
 

@@ -15,11 +15,10 @@
 }
 
 .header-content {
-  max-width: 1400px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   gap: 2rem;
+  width: 100%;
 }
 
 .header-logo {

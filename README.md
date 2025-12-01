@@ -134,6 +134,12 @@ The application will prioritize environment variables over the API Keys JSON fil
 - `DELETE /api/api-keys/:provider` - Delete API key
 - `POST /api/conversation` - Send message to AI
 
+## Tool Call Handling
+
+- Tool/function calls are executed iteratively until the assistant returns a natural-language reply or a safeguard limit (5 iterations) is hit.
+- Each tool execution is logged by the server so you can trace which stub ran and what mock data was returned.
+- If the iteration limit is exceeded—for example, due to an endlessly looping prompt—the API responds with a 500 error explaining that no final response was produced. Adjust your prompt or tool definitions before retrying.
+
 ## Contributing
 
 This is an open-source project. Contributions are welcome! Please feel free to submit issues or pull requests.

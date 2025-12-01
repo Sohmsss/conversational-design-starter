@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import InstructionEditor from './components/InstructionEditor';
 import FunctionStubManager from './components/FunctionStubManager';
 import ApiKeyManager from './components/ApiKeyManager';
@@ -9,15 +9,6 @@ import './styles/shared.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('instructions');
-  const [sessionId, setSessionId] = useState(null);
-
-  useEffect(() => {
-    // Fetch session ID on mount
-    fetch('/api/session', { credentials: 'include' })
-      .then(res => res.json())
-      .then(data => setSessionId(data.sessionId))
-      .catch(err => console.error('Failed to fetch session ID:', err));
-  }, []);
 
   const configTabs = [
     { id: 'instructions', label: 'Instructions', icon: '📝' },
@@ -45,12 +36,6 @@ function App() {
             <h1>Conversational Design Starter</h1>
             <p>Design and test your AI assistant</p>
           </div>
-          {sessionId && (
-            <div className="session-info">
-              <span className="session-label">Session:</span>
-              <code className="session-id">{sessionId.substring(0, 8)}</code>
-            </div>
-          )}
         </div>
       </header>
       

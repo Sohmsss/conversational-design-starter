@@ -15,7 +15,7 @@ function ConversationPanel() {
   const providers = {
     openai: {
       name: 'OpenAI',
-      models: ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo']
+      models: ['gpt-5', 'gpt-5.1', 'gpt-4']
     },
     anthropic: {
       name: 'Anthropic',

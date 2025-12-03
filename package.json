@@ -10,7 +10,7 @@
     "client": "cd client && npm run dev",
     "build": "cd client && npm install && npm run build",
     "start": "node server/index.js",
-    "test": "node --test server/__tests__/conversationToolLoop.test.js",
+    "test": "node --test server/__tests__/*.test.js",
     "install-all": "npm install && cd client && npm install",
     "postinstall": "cd client && npm install"
   },

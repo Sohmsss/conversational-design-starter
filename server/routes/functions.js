@@ -3,6 +3,25 @@ import { readJSON, writeJSON } from '../services/storage.js';
 import { randomUUID } from 'crypto';
 import { getOpenAIClient, getAnthropicClient } from '../services/aiProviders.js';
 
+export function buildFunctionMockGenerationRequest(prompt) {
+  return {
+    model: 'gpt-5.1',
+    messages: [
+      {
+        role: 'system',
+        content:
+          'You are a helpful assistant that generates function definitions with realistic mock inputs and mock responses. Always return valid JSON only, no markdown formatting.'
+      },
+      {
+        role: 'user',
+        content: prompt
+      }
+    ],
+    temperature: 0.3,
+    max_completion_tokens: 2000
+  };
+}
+
 const router = express.Router();
 
 // GET /api/functions - Get all function stubs
@@ -169,21 +188,9 @@ Both should be realistic example data. Use realistic values, not placeholders li
 
     if (providerKey === 'openai') {
       const client = await getOpenAIClient();
-      const completion = await client.chat.completions.create({
-        model: 'gpt-5',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a helpful assistant that generates function definitions with realistic mock inputs and mock responses. Always return valid JSON only, no markdown formatting.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.3,
-        max_completion_tokens: 2000
-      });
+      const completion = await client.chat.completions.create(
+        buildFunctionMockGenerationRequest(prompt)
+      );
 
       schemasText = completion.choices[0].message.content.trim();
       // Remove markdown code blocks if present

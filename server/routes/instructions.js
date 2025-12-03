@@ -4,6 +4,80 @@ import { getOpenAIClient, getAnthropicClient } from '../services/aiProviders.js'
 
 const router = express.Router();
 
+function normalizeOpenAIMessageContent(content) {
+  if (Array.isArray(content)) {
+    return content
+      .map(part => {
+        if (typeof part === 'string') {
+          return part;
+        }
+        if (part && typeof part === 'object') {
+          if (typeof part.text === 'string') {
+            return part.text;
+          }
+          if (Array.isArray(part.content)) {
+            return normalizeOpenAIMessageContent(part.content);
+          }
+        }
+        return '';
+      })
+      .join('');
+  }
+
+  if (typeof content === 'string') {
+    return content;
+  }
+
+  if (content && typeof content === 'object' && typeof content.text === 'string') {
+    return content.text;
+  }
+
+  if (content === undefined || content === null) {
+    return '';
+  }
+
+  return String(content);
+}
+
+export function buildInstructionGenerationRequest(prompt) {
+  return {
+    model: 'gpt-4o',
+    messages: [
+      {
+        role: 'system',
+        content:
+          'You are a helpful assistant that generates AI system instructions. Always return only the instructions text, no markdown formatting, no explanations.'
+      },
+      {
+        role: 'user',
+        content: prompt
+      }
+    ],
+    max_completion_tokens: 2000
+  };
+}
+
+export function mergeGeneratedInstructions(
+  existingInstructions = {},
+  overrides = {},
+  generatedContent = '',
+  timestamp = new Date().toISOString()
+) {
+  const sanitizedOverrides = {};
+  for (const [key, value] of Object.entries(overrides || {})) {
+    if (value !== undefined) {
+      sanitizedOverrides[key] = value;
+    }
+  }
+
+  return {
+    ...existingInstructions,
+    ...sanitizedOverrides,
+    content: generatedContent,
+    updatedAt: timestamp
+  };
+}
+
 // GET /api/instructions - Get current instructions
 router.get('/', async (req, res) => {
   try {
@@ -107,29 +181,17 @@ Use second person ("You are...", "You will...", "You should...") throughout the 
 
 Return ONLY the instructions text, no markdown formatting, no explanations, just the instructions themselves.`;
 
-    let instructionsText;
+    let instructionsText = '';
 
     if (providerKey === 'openai') {
       const client = await getOpenAIClient();
-      const completion = await client.chat.completions.create({
-        model: 'gpt-5.1',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a helpful assistant that generates AI system instructions. Always return only the instructions text, no markdown formatting, no explanations.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_completion_tokens: 2000
-      });
+      const completion = await client.chat.completions.create(
+        buildInstructionGenerationRequest(prompt)
+      );
 
-      instructionsText = completion.choices[0].message.content.trim();
-      // Remove markdown code blocks if present
-      instructionsText = instructionsText.replace(/```\n?/g, '').trim();
+      const choice = completion?.choices?.[0];
+      const rawContent = choice ? choice.message?.content : '';
+      instructionsText = normalizeOpenAIMessageContent(rawContent);
     } else if (providerKey === 'anthropic') {
       const client = await getAnthropicClient();
       const message = await client.messages.create({
@@ -144,14 +206,37 @@ Return ONLY the instructions text, no markdown formatting, no explanations, just
         system: 'You are a helpful assistant that generates AI system instructions. Always return only the instructions text, no markdown formatting, no explanations.'
       });
 
-      instructionsText = message.content[0].text.trim();
-      // Remove markdown code blocks if present
-      instructionsText = instructionsText.replace(/```\n?/g, '').trim();
+      instructionsText = message?.content?.[0]?.text || '';
     } else {
       return res.status(400).json({ error: `Unsupported provider: ${provider}` });
     }
 
-    res.json({ content: instructionsText });
+    // Remove markdown code blocks if present
+    instructionsText = (instructionsText || '').replace(/```[a-z]*\n?/gi, '').trim();
+
+    if (!instructionsText) {
+      throw new Error('AI response did not include instructions text.');
+    }
+
+    const existingInstructions = await readJSON('instructions.json', req.sessionId);
+    const overrides = {};
+
+    if (audience !== undefined) overrides.audience = audience;
+    if (values !== undefined) overrides.values = values;
+    if (toneVoice !== undefined) overrides.toneVoice = toneVoice;
+    if (serviceExperience !== undefined) overrides.serviceExperience = serviceExperience;
+    if (motivations !== undefined) overrides.motivations = motivations;
+    if (frustrations !== undefined) overrides.frustrations = frustrations;
+
+    const updatedInstructions = mergeGeneratedInstructions(
+      existingInstructions,
+      overrides,
+      instructionsText
+    );
+
+    await writeJSON('instructions.json', updatedInstructions, req.sessionId);
+
+    res.json(updatedInstructions);
   } catch (error) {
     console.error('Error generating instructions:', error);
     res.status(500).json({ 

@@ -96,6 +96,14 @@ function InstructionEditor() {
 
       const data = await response.json();
       setContent(data.content || '');
+      if (data.audience !== undefined) setAudience(data.audience);
+      if (data.values !== undefined) setValues(data.values);
+      if (data.toneVoice !== undefined) setToneVoice(data.toneVoice);
+      if (data.serviceExperience !== undefined) setServiceExperience(data.serviceExperience);
+      if (data.motivations !== undefined) setMotivations(data.motivations);
+      if (data.frustrations !== undefined) setFrustrations(data.frustrations);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
     } catch (err) {
       setError(err.message);
     } finally {

@@ -64,6 +64,12 @@ This will start:
 4. **Test Conversation**: Use the Test Conversation tab to chat with your assistant
 5. **Export**: Export your design as JSON or Markdown in the Export tab
 
+> **Note:** When you click **Generate Instructions**, the resulting text is now saved immediately to your local `instructions.json`. The textarea refreshes with the generated content automatically, so the conversation simulator and future sessions always use the latest instructions without requiring a separate Save click.
+
+### Model compatibility
+
+- The latest OpenAI GPT-5 family models reject the legacy `max_tokens` parameter. The backend now sends `max_completion_tokens` instead, preventing 400 errors such as `Unsupported parameter: 'max_tokens'`. If you see that error again, ensure your local server is updated to the latest code and restart both the server and client so the new request payloads take effect.
+
 ## Project Structure
 
 ```

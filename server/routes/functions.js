@@ -170,7 +170,7 @@ Both should be realistic example data. Use realistic values, not placeholders li
     if (providerKey === 'openai') {
       const client = await getOpenAIClient();
       const completion = await client.chat.completions.create({
-        model: 'gpt-4',
+        model: 'gpt-5',
         messages: [
           {
             role: 'system',
@@ -182,7 +182,7 @@ Both should be realistic example data. Use realistic values, not placeholders li
           }
         ],
         temperature: 0.3,
-        max_tokens: 2000
+        max_completion_tokens: 2000
       });
 
       schemasText = completion.choices[0].message.content.trim();
